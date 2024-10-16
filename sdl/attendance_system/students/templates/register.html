@@ -1,0 +1,176 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Registration</title>
+    <style>
+      /* Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Body Styling */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f2f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 120vh;
+      }
+
+      /* Container Styling */
+      .container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+      }
+
+      /* Header */
+      .container h2 {
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 1.8em;
+      }
+
+      /* Form Label */
+      .container label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        text-align: left;
+        color: #555;
+      }
+
+      /* Form Input */
+      .container input[type="text"],
+      .container input[type="email"],
+      .container input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1em;
+      }
+
+      /* Button Styling */
+      .container button {
+        width: 100%;
+        padding: 12px;
+        background-color: #4A90E2;
+        color: white;
+        font-size: 1em;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .container button:hover {
+        background-color: #357ABD;
+      }
+
+      /* Link Styling */
+      .container a {
+        color: #4A90E2;
+        text-decoration: none;
+        font-size: 0.9em;
+      }
+
+      .container a:hover {
+        text-decoration: underline;
+      }
+
+      /* Error Styling */
+      .container .errorlist {
+        color: red;
+        font-size: 0.85em;
+        margin-top: -10px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Student Registration</h2>
+      <form method="POST">
+        {% csrf_token %}
+        
+        <!-- Username Field -->
+        <div>
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" value="{{ form.username.value }}" required />
+          {{ form.username.errors }}
+        </div>
+
+        <!-- Email Field -->
+        <div>
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" value="{{ form.email.value }}" required />
+          {{ form.email.errors }}
+        </div>
+
+        <!-- Password Field -->
+        <div>
+          <label for="password1">Password:</label>
+          <input type="password" id="password1" name="password1" required />
+          {{ form.password1.errors }}
+        </div>
+
+        <!-- Confirm Password Field -->
+        <div>
+          <label for="password2">Confirm Password:</label>
+          <input type="password" id="password2" name="password2" required />
+          {{ form.password2.errors }}
+        </div>
+
+        <!-- Batch Field -->
+        <div>
+          <label for="batch">Batch:</label>
+          <input type="text" id="batch" name="batch" value="{{ form.batch.value }}" required />
+          {{ form.batch.errors }}
+        </div>
+
+        <!-- Branch Field -->
+        <div>
+          <label for="branch">Branch:</label>
+          <input type="text" id="branch" name="branch" value="{{ form.branch.value }}" required />
+          {{ form.branch.errors }}
+        </div>
+
+        <!-- Enrollment Number Field -->
+        <div>
+          <label for="enrollment_no">Enrollment Number:</label>
+          <input type="text" id="enrollment_no" name="enrollment_no" value="{{ form.enrollment_no.value }}" required />
+          {{ form.enrollment_no.errors }}
+        </div>
+
+        <!-- Semester Field -->
+        <div>
+          <label for="semester">Semester:</label>
+          <input type="text" id="semester" name="semester" value="{{ form.semester.value }}" required />
+          {{ form.semester.errors }}
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+          <button type="submit">Register</button>
+        </div>
+      </form>
+
+      <p>
+        <a href="{% url 'login' %}">Already have an account? Log in here.</a>
+      </p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,253 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teacher Dashboard</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Dashboard Header */
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        /* Form Container */
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        /* Label and Select Styling */
+        label {
+            font-weight: bold;
+            color: #555;
+            margin-right: 5px;
+        }
+
+        /* Form Select Styling */
+        select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        /* Filter Button */
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4A90E2;
+            color: white;
+            font-size: 1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #357ABD;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            max-width: 800px;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4A90E2;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Attendance Form in Table */
+        .attendance-form {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Attendance Buttons */
+        .present-button, .absent-button {
+            padding: 5px 10px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .present-button {
+            background-color: #4CAF50;
+        }
+
+        .present-button:hover {
+            background-color: #45A049;
+        }
+
+        .absent-button {
+            background-color: #E74C3C;
+        }
+
+        .absent-button:hover {
+            background-color: #C0392B;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Teacher Dashboard</h2>
+
+    <form method="GET">
+        <div>
+            <label for="semester">Semester:</label>
+            <select name="semester">
+                <option value="">-- Select Semester --</option>
+                <option value="1">1st Semester</option>
+                <option value="2">2nd Semester</option>
+                <option value="3">3rd Semester</option>
+                <option value="4">4th Semester</option>
+                <option value="5">5th Semester</option>
+                <option value="6">6th Semester</option>
+                <option value="7">7th Semester</option>
+                <option value="8">8th Semester</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="batch">Batch:</label>
+            <select name="batch">
+                <option value="">-- Select Batch --</option>
+                <option value="A1">Batch A1</option>
+                <option value="A2">Batch A2</option>
+                <option value="A3">Batch A3</option>
+                <option value="B1">Batch B1</option>
+                <option value="B2">Batch B2</option>
+                <option value="B3">Batch B3</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="subject">Subject:</label>
+            <select name="subject">
+                <option value="">-- Select Subject --</option>
+                {% for subject in subjects %}
+                <option value="{{ subject.id }}">{{ subject.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit">Filter</button>
+    </form>
+    <a href="{% url 'export_attendance_excel' selected_semester|default:0 %}" class="btn btn-primary">Export Attendance</a>
+
+
+    <table>
+        <tr>
+            <th>Student Name</th>
+            <th>Enrollment Number</th>
+            <th>Attendance Percentage</th>
+            <th>Mark Attendance</th>
+        </tr>
+        {% for entry in student_attendance %}
+        <tr>
+            <td>{{ entry.student.user.username }}</td>
+            <td>{{ entry.student.enrollment_no }}</td>
+            <td id="attendance-{{ entry.student.id }}">{{ entry.attendance_percentage |floatformat:2 }}%</td>
+            <td>
+                {% if entry.subject_attendance.is_finalized %}
+                  Attendance Finalized
+                {% else %}
+                <form class="attendance-form" method="POST" data-student-id="{{ entry.student.id }}">
+                    {% csrf_token %}
+                    <input type="hidden" name="student_id" value="{{ entry.student.id }}">
+                    <input type="hidden" name="subject_id" value="{{ selected_subject.id }}">
+                    <button type="submit" class="present-button" name="attendance_status" value="present" data-attendance="present">Present</button>
+                    <button type="submit" class="absent-button" name="attendance_status" value="absent" data-attendance="absent">Absent</button>
+                </form>
+                
+
+             {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <script>
+      document.querySelectorAll('.attendance-form').forEach(form => {
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const button = event.submitter;  // Button that triggered the submit
+        const formData = new FormData(this);
+
+        // Use the clicked button’s `value` as `attendance_status`
+        formData.append('attendance_status', button.value);
+
+        const studentId = this.getAttribute('data-student-id');
+
+        fetch("{% url 'mark_attendance' %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+            },
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById(`attendance-${studentId}`).innerText = data.attendance_percentage + '%';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+});
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <style>
+        /* Reset some default styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align items to the top */
+            height: 100vh;
+            margin: 0;
+            padding: 20px; /* Add some padding */
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #4A90E2;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin: 10px 0;
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        p strong {
+            color: #333;
+        }
+
+        .attendance {
+            font-weight: bold;
+            color: #4A90E2;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse; /* Collapse borders */
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd; /* Add border for table */
+        }
+
+        th {
+            background-color: #4A90E2;
+            color: white; /* Header text color */
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2; /* Alternate row color */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, {{ student.user.username }}</h1>
+        <p><strong>Name:</strong> {{ student.user.username }}</p>
+        <p><strong>Enrollment Number:</strong> {{ student.enrollment_no }}</p>
+
+        <h2>Attendance Percentages:</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Attendance Percentage</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in attendance_data %}
+                    <tr>
+                        <td>{{ record.subject }}</td>
+                        <td>{{ record.attendance_percentage|floatformat:2 }}%</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="2">No attendance records found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

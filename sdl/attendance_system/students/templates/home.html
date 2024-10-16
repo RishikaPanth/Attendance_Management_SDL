@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance System</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Main Heading */
+        h1 {
+            font-size: 2.5em;
+            color: #4A90E2;
+            margin-bottom: 30px;
+        }
+
+        /* Button Container */
+        .button-container {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Button Styling */
+        .button-container a button {
+            background-color: #4A90E2;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-container a button:hover {
+            background-color: #357ABD;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Attendance System</h1>
+
+    <div class="button-container">
+        <a href="{% url 'login' %}"><button>Login</button></a>
+        <a href="{% url 'student_register' %}"><button>Register</button></a>
+        <a href="{% url 'enter_password' %}"><button>Take Attendance</button></a>
+    </div>
+</body>
+</html>
