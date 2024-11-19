@@ -1,13 +1,7 @@
 # Attendance Management System 
-The Attendance Management System is a digital solution designed to streamline the process of tracking and 
-managing student attendance. Traditionally, attendance is maintained manually, which is time-consuming and 
-prone to errors. This system aims to automate attendance tracking, making it more efficient and reliable for 
-both teachers and students. 
-Built using Django, a powerful web development framework, the system allows teachers to mark attendance 
-for students in various subjects, monitor overall attendance percentages, and export attendance records. 
-Students can view their attendance data in real-time, ensuring transparency and enabling them to keep track 
-of their performance.  Automating attendance calculations, this system reduces administrative burdens and 
-enhances the accuracy of attendance records.
+The Attendance Management System, built with Django, automates student attendance tracking, replacing traditional manual methods. 
+It enables teachers to mark attendance, monitor percentages, and export records efficiently, while students can view real-time data 
+for transparency. This system reduces administrative workload and ensures accurate records.
 
 # Inputs: 
 1. Teacher Login/Password Verification: Teachers enter a password to access the attendance dashboard. 
